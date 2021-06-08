@@ -7,6 +7,20 @@ import Filter from "./Filter/Filter";
 class App extends Component {
   state = { contacts: [], filter: "" };
 
+  componentDidMount() {
+    if (!localStorage.getItem("contacts")) {
+      return;
+    }
+
+    const contactsFromStorage = JSON.parse(localStorage.getItem("contacts"));
+    this.setState({ contacts: contactsFromStorage });
+  }
+
+  componentDidUpdate() {
+    const { contacts } = this.state;
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+  }
+
   isUniqe = (name) => {
     const { contacts } = this.state;
     const isExist = contacts.find((contact) => contact.name === name);
