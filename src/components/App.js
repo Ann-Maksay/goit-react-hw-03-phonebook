@@ -16,9 +16,11 @@ class App extends Component {
     this.setState({ contacts: contactsFromStorage });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     const { contacts } = this.state;
-    localStorage.setItem("contacts", JSON.stringify(contacts));
+    if (prevState.contacts !== contacts) {
+      localStorage.setItem("contacts", JSON.stringify(contacts));
+    }
   }
 
   isUniqe = (name) => {
